@@ -7,5 +7,9 @@
 	<select id = "getWordById" resultType = "com.mysite.sbbpage.Word">
 		SELECT id, word FROM page_tb WHERE id = #{id}
 	</select>
+	
+	<select id = "countTotal" resultType = "Integer">
+		SELECT count(*) FROM page_tb
+	</select>
 
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,12 +16,25 @@ public class WordController {
 	@Autowired
 	private WordService wordService;
 	
+	@GetMapping("/")
+	public String home() {
+		return "index";
+	}
+	
+	@GetMapping("/detail")
+	public String detail() {
+		return "detail";
+	}
+	
 	//  /words?page=2&size=10  요론식으로 요청을 받음
 	@GetMapping("/words")
-	@ResponseBody
-	public List<Word> getWord(@RequestParam(name="page", defaultValue="1") int page,
-							@RequestParam(name="size", defaultValue="10") int size) {
-		return wordService.getWordList(page, size);
+//	@ResponseBody
+	public String getWord(@RequestParam(name="page", defaultValue="1") int page,
+							@RequestParam(name="size", defaultValue="10") int size,
+							Model model) {
+		PageDTO pageDTO =  wordService.getWordList(page, size);
+		model.addAttribute("pageDTO", pageDTO);
+		return "list";
 	}
 	
 	@GetMapping("/words/{id}")
@@ -29,3 +43,5 @@ public class WordController {
 		return wordService.getWordById(id);
 	}
 }
+
+

@@ -11,9 +11,15 @@ public class WordService {
 	@Autowired
 	private WordMapper wordMapper;
 	
-	public List<Word> getWordList(int page, int size) {
+	public PageDTO getWordList(int page, int size) {
 		int offset = (page - 1) * size;
-		return wordMapper.getWordList(offset, size);
+		// select * from table limit X offset y;
+		
+		List<Word> content = wordMapper.getWordList(offset, size);
+		int totalElements = wordMapper.countTotal();
+		int totalPages = (int) Math.ceil((double) totalElements / size);
+		PageDTO pageDTO = new PageDTO(page, size, totalPages, totalElements, content);
+		return pageDTO;
 	}
 	
 	public Word getWordById(Integer id) {

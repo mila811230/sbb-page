@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 public interface WordMapper {
 	
 	List<Word> getWordList(@Param("offset") int offset, @Param("size") int size);
+	Integer countTotal();
 	Word getWordById(Integer id);
 
 }
